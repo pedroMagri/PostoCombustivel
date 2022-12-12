@@ -1,5 +1,5 @@
 #Imports
-from posto_classes import Combustivel, NotaFiscal, Veiculo, Limitado
+from posto_classes import Combustivel, NotaFiscal, Veiculo, Limitado, Funcionario
 from posto_funcoes import mostra_combustivel, caixa_de_texto, mostra_veiculos, mostra_extrato, entrada
 
 
@@ -14,6 +14,7 @@ def mostrar_lista_combustiveis(lista, cargo):
     if not(cargo == 'Gerente'):
         input('\n '*5 + '\nDigite algo para retornar ao menu...')
         print('\n '*10)
+        terminar = 1
 
     else:
         print('\n '*5)
@@ -413,7 +414,7 @@ def abastecimento(lista1, lista2, lista3):
                     venda = NotaFiscal(qtd_abastecendo, lista2[j].getNome(), 'Outro', (round(lista2[j].getPreco(), 2)*qtd_abastecendo))
                     lista3.append(venda)
     
-    if not(escolha == 4) and (outro == False):
+    if not(escolha == 4) and (not outro):
 
         if tanque == v1.limite:
             print('\n '*10)
@@ -471,10 +472,66 @@ def abastecimento(lista1, lista2, lista3):
                         venda = NotaFiscal(qtd_abastecendo, lista2[j].getNome(), veiculo, (round(lista2[j].getPreco(), 2)*qtd_abastecendo))
                         lista3.append(venda)
 
-def consultar_funcionarios(lista):
+def consultar_funcionarios(lista, caractere):
+    print('\n' * 5)
+    caixa_de_texto('Funcionários')
 
-    print(lista)
+    if not(len(lista) == 0):
+
+        for x in lista:
+
+            print(f'{caractere}- {x.getNome()}' + ' ' * (10 - len(x.getNome())) + f'|   {x.getCargo()}' + ' ' * (15 - len(x.getCargo())) + f'|  {x.getCpf()}')
+
+            if (type(caractere) == int):
+                caractere += 1
+
+        opcao = input('\n' * 5 + 'Digite "A" se deseja adicionar um funcionário, "E" para excluir um funcionário ou "X" para retornar ao menu: ').capitalize()
+
+        while (opcao != 'A') and (opcao != 'E') and (opcao != 'X'):
+            print('\n Valor digitado inválido, por favor digite novamente')
+            opcao = input(' Digite o número da função que deseja acessar: ')
+
+        if (opcao == 'X'):
+            print('\n ' + 'Voltando para o menu de login...')
+            print('\n' * 5)
+
+        if (opcao == 'A'):
+            print('\n' * 5)
+            caixa_de_texto('Adicionando novo funcionário')
+
+            nome = input('Digite o nome do novo funcionário: ').capitalize()
+            cargo = input('Digite o cargo do novo funcionário: ').capitalize()
+            cpf = input('Digite o CPF do novo funcionário: ')
+            login = input('Digite o login do novo funcionário: ')
+            senha = input('Digite a senha do novo funcionário: ')
+            func = Funcionario(nome, cpf, cargo, login, senha)
+            lista.append(func)
+        
+        if (opcao == 'E'):
+            print('\n ')
+            excluir = entrada(int, 'Digite o número do funcionário que deseja excluir: ', 2, 1, len(lista), 0, 0, 0)
 
 
+            print(f'\n O funcionário "{lista[excluir-1].getNome()}" será excluído permanentemente, deseja continuar? ')
 
+            confirma_ou_nao = str(input('\n Digite S para confirmar a exclusão / ou N para cancelar: ').capitalize())
+            while not (confirma_ou_nao == 'S' or confirma_ou_nao == 'N'):
+                confirma_ou_nao = str(input(' Digite S para confirmar a exclusão / ou N para cancelar: '))
+
+            if confirma_ou_nao == 'S':
+                lista.pop(excluir-1)
+                print('\n '*10)
+                caixa_de_texto('Funcionário excluído')
+                input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                print('\n '*10)
+
+            else:
+
+                print('\n '*10)
+                caixa_de_texto('Operação cancelada'.format(lista[excluir-1].getNome()))
+                input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                print('\n '*10)
+
+    else:
+        print('\nLista de funcionários vazia')
 

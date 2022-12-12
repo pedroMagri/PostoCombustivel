@@ -75,40 +75,39 @@ class Limitado(Veiculo):
 
 
 class Funcionario:
-    def __init__(self, nome, cpf, cargo, login, senha, vendas):
+    def __init__(self, nome, cpf, cargo, login, senha):
         self.nome = nome.capitalize()
         self.cpf = cpf
         self.cargo = cargo
-        self.vendas = vendas
         self.senha = senha
         self.login = login
     
 
-    def get_nome(self):
+    def getNome(self):
         return self.nome
     
-    def get_cpf(self):
+    def getCpf(self):
         return self.cpf
 
-    def get_cargo(self):
+    def getCargo(self):
         return self.cargo
 
-    def get_vendas(self):
+    def getVendas(self):
         return self.vendas
     
-    def get_senha(self):
+    def getSenha(self):
         return self.senha
     
-    def get_login(self):
+    def getLogin(self):
         return self.login
 
-    def set_nome(self, nome):
+    def setNome(self, nome):
         self.nome = nome
     
-    def set_cpf(self, cpf):
+    def setCpf(self, cpf):
         self.cpf = cpf
     
-    def set_cargo(self, cargo):
+    def setCargo(self, cargo):
         self.cargo = cargo
     
-    
+
