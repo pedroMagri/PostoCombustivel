@@ -1,97 +1,57 @@
 #Imports
 from posto_classes import Combustivel, NotaFiscal, Veiculo, Limitado
-from posto_funcoes import mostra_combustivel, caixa_de_texto, mostra_veiculos, mostra_extrato, Input
+from posto_funcoes import mostra_combustivel, caixa_de_texto, mostra_veiculos, mostra_extrato, entrada
 
 
 #Funções
 
 #1 Lista de combustíveis comercializados
-def mostrar_lista_combustiveis(lista):
+def mostrar_lista_combustiveis(lista, cargo):
     terminar = 0
     print('\n '*10)
     mostra_combustivel('Lista de combustíveis comercializados', lista, 1)
 
-    '''input('\n '*5 + '\nDigite algo para retornar ao menu...') APARECER APENAS PARA FUNCIONÁRIO!!!!!!!!!!!!!!
-    print('\n '*10) APARECER APENAS PARA FUNCIONÁRIO!!!!!!!!!!!!!!
-    '''
-    print('\n '*5)
-    editar = Input(int, 'Digite o número do combustível para edita-lo / ou X para retornar ao menu: ', 2, 1, len(lista), 1, 0, 0) # APARECER APENAS PARA GERENTE!!!!!!!!!!!!!!
-
-    if str(editar).capitalize() == 'X':
-        terminar = 1
-        caixa_de_texto('Operação cancelada')
-
+    if not(cargo == 'Gerente'):
         input('\n '*5 + '\nDigite algo para retornar ao menu...')
         print('\n '*10)
 
-    elif terminar == 0:
-        print('\n '*10)
-        caixa_de_texto('Editar combustível')
-
-        print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()))
-
-        print('\n 1 - Nome' + '\n 2 - Preço')
-
+    else:
         print('\n '*5)
-        dado = Input(int, 'Digite o número correspondente ao dado do combustível para edita-lo / ou X para cancelar a operação: ', 2, 1, 2, 1, 0, 0)
+        editar = entrada(int, 'Digite o número do combustível para edita-lo / ou X para retornar ao menu: ', 2, 1, len(lista), 1, 0, 0)
 
-        if str(dado).capitalize() == 'X':
-            print('\n '*10)
+        if str(editar).capitalize() == 'X':
+            terminar = 1
             caixa_de_texto('Operação cancelada')
 
             input('\n '*5 + '\nDigite algo para retornar ao menu...')
             print('\n '*10)
 
-        if dado == 1:
+        elif terminar == 0:
             print('\n '*10)
             caixa_de_texto('Editar combustível')
 
             print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()))
 
-            novoDado = input('\n '*5 + "Digite um novo nome para o combustível / ou X para cancelar: ".format(lista[editar-1].getNome()))
+            print('\n 1 - Nome' + '\n 2 - Preço')
 
-            if novoDado.capitalize() == 'X':
+            print('\n '*5)
+            dado = entrada(int, 'Digite o número correspondente ao dado do combustível para edita-lo / ou X para cancelar a operação: ', 2, 1, 2, 1, 0, 0)
+
+            if str(dado).capitalize() == 'X':
                 print('\n '*10)
                 caixa_de_texto('Operação cancelada')
 
                 input('\n '*5 + '\nDigite algo para retornar ao menu...')
                 print('\n '*10)
 
-            else:
+            if dado == 1:
+                print('\n '*10)
+                caixa_de_texto('Editar combustível')
 
-                print('\n O nome do combustível "{}" passará a ser {}'.format(lista[editar-1].getNome(), novoDado))
+                print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()))
 
-                confirma_ou_nao = str(input('\nDigite S para confirmar / ou N para cancelar:').capitalize())
+                novoDado = input('\n '*5 + "Digite um novo nome para o combustível / ou X para cancelar: ".format(lista[editar-1].getNome()))
 
-                while not (confirma_ou_nao == 'S' or confirma_ou_nao == 'N'):
-                    confirma_ou_nao = str(input('Digite S para confirmar / ou N para cancelar:'))
-
-                if confirma_ou_nao == 'S':
-                    lista[editar-1].setNome(novoDado)
-                    print('\n '*10)
-                    caixa_de_texto('Combustível editado')
-                    print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()) + '  |  {:.2f} Litros em estoque'.format(lista[editar-1].getEstoque()))
-
-                    input('\n '*5 + '\nDigite algo para retornar ao menu...')
-                    print('\n '*10)
-
-                else:
-                    print('\n '*10)
-                    caixa_de_texto('Operação cancelada')
-
-                    input('\n '*5 + '\nDigite algo para retornar ao menu...')
-                    print('\n '*10)
-
-        if dado == 2:
-            print('\n '*10)
-            caixa_de_texto('Editar combustível')
-
-            print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()))
-
-            print('\n '*5)
-            novoDado = Input(float, 'Digite um novo preço para o combustível do tipo {} / ou X para cancelar: '.format(lista[editar-1].getNome()), 1, 0, 0, 1, 0, 0)
-
-            if type(novoDado) == str:
                 if novoDado.capitalize() == 'X':
                     print('\n '*10)
                     caixa_de_texto('Operação cancelada')
@@ -99,30 +59,72 @@ def mostrar_lista_combustiveis(lista):
                     input('\n '*5 + '\nDigite algo para retornar ao menu...')
                     print('\n '*10)
 
-            else:
+                else:
+                    novoDado = novoDado.capitalize()
+                    print('\n O nome do combustível "{}" passará a ser "{}"'.format(lista[editar-1].getNome(), novoDado))
 
-                print('\n O preço do combustível do tipo "{}" passará a ser R$ {:.2f}'.format(lista[editar-1].getNome(), novoDado))
+                    confirma_ou_nao = str(input('\nDigite S para confirmar / ou N para cancelar:').capitalize())
 
-                confirma_ou_nao = str(input('\nDigite S para confirmar / ou N para cancelar:').capitalize())
+                    while not (confirma_ou_nao == 'S' or confirma_ou_nao == 'N'):
+                        confirma_ou_nao = str(input('Digite S para confirmar / ou N para cancelar:'))
 
-                while not (confirma_ou_nao == 'S' or confirma_ou_nao == 'N'):
-                    confirma_ou_nao = str(input('Digite S para confirmar / ou N para cancelar:'))
+                    if confirma_ou_nao == 'S':
+                        lista[editar-1].setNome(novoDado)
+                        print('\n '*10)
+                        caixa_de_texto('Combustível editado')
+                        print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()) + '  |  {:.2f} Litros em estoque'.format(lista[editar-1].getEstoque()))
 
-                if confirma_ou_nao == 'S':
-                    lista[editar-1].setPreco(novoDado)
-                    print('\n '*10)
-                    caixa_de_texto('Combustível editado')
-                    print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()) + '  |  {:.2f} Litros em estoque'.format(lista[editar-1].getEstoque()))
+                        input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                        print('\n '*10)
 
-                    input('\n '*5 + '\nDigite algo para retornar ao menu...')
-                    print('\n '*10)
+                    else:
+                        print('\n '*10)
+                        caixa_de_texto('Operação cancelada')
+
+                        input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                        print('\n '*10)
+
+            if dado == 2:
+                print('\n '*10)
+                caixa_de_texto('Editar combustível')
+
+                print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()))
+
+                print('\n '*5)
+                novoDado = entrada(float, 'Digite um novo preço para o combustível do tipo {} / ou X para cancelar: '.format(lista[editar-1].getNome()), 1, 0, 0, 1, 0, 0)
+
+                if type(novoDado) == str:
+                    if novoDado.capitalize() == 'X':
+                        print('\n '*10)
+                        caixa_de_texto('Operação cancelada')
+
+                        input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                        print('\n '*10)
 
                 else:
-                    print('\n '*10)
-                    caixa_de_texto('Operação cancelada')
 
-                    input('\n '*5 + '\nDigite algo para retornar ao menu...')
-                    print('\n '*10)
+                    print('\n O preço do combustível do tipo "{}" passará a ser R$ {:.2f}'.format(lista[editar-1].getNome(), novoDado))
+
+                    confirma_ou_nao = str(input('\nDigite S para confirmar / ou N para cancelar:').capitalize())
+
+                    while not (confirma_ou_nao == 'S' or confirma_ou_nao == 'N'):
+                        confirma_ou_nao = str(input('Digite S para confirmar / ou N para cancelar:'))
+
+                    if confirma_ou_nao == 'S':
+                        lista[editar-1].setPreco(novoDado)
+                        print('\n '*10)
+                        caixa_de_texto('Combustível editado')
+                        print(' {}'.format(lista[editar-1].getNome()) + ' ' * (10 - len(lista[editar-1].getNome())) + '  |  R$ {:.2f}'.format(lista[editar-1].getPreco()) + '  |  {:.2f} Litros em estoque'.format(lista[editar-1].getEstoque()))
+
+                        input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                        print('\n '*10)
+
+                    else:
+                        print('\n '*10)
+                        caixa_de_texto('Operação cancelada')
+
+                        input('\n '*5 + '\nDigite algo para retornar ao menu...')
+                        print('\n '*10)
     
 
 
@@ -163,14 +165,14 @@ def adiciona_combustivel(lista):
         print(' - {}'.format(nome) + ' ' * (10 - len(nome)) + '|  R$ 00.00' + '  |  00.00 Litros em estoque')
 
         print('\n '*5)
-        preco = Input(float, 'Digite o preço que o novo combustível será vendido: ', 1, 0, 0, 0, 0, 0)
+        preco = entrada(float, 'Digite o preço que o novo combustível será vendido: ', 1, 0, 0, 0, 0, 0)
 
         print('\n '*10)
         caixa_de_texto('Adicionar novo combustível')
         print(' - {}'.format(nome) + ' ' * (10 - len(nome)) + '|  R$ {:.2f}'.format(preco) + '  |  00.00 Litros em estoque')
 
         print('\n '*5)
-        estoque = Input(float, 'Digite a quantidade de litros no estoque: ', 3, 0, 0, 0, 0, 0)
+        estoque = entrada(float, 'Digite a quantidade de litros no estoque: ', 3, 0, 0, 0, 0, 0)
 
         print('\n '*10)
         caixa_de_texto('Combustível adicionado')
@@ -190,7 +192,7 @@ def excluir_combustivel(lista):
     mostra_combustivel('Excluir combustível', lista, 1)
 
     print('\n '*5)
-    excluir = Input(int, 'Digite o número do combustível que deseja excluir: ', 2, 1, len(lista), 0, 0, 0)
+    excluir = entrada(int, 'Digite o número do combustível que deseja excluir: ', 2, 1, len(lista), 0, 0, 0)
 
 
     print('\n O combustível do tipo {} será excluído permanentemente, deseja continuar? '.format(lista[excluir-1].getNome()))
@@ -240,11 +242,11 @@ def comprar_combustivel(lista, lista2):
         cont += 1
 
     print('\n '*5)
-    comprar = Input(int, 'Digite o número do combustível que deseja comprar: ', 2, 1, cont, 0, 0, 0, 0, 0)
+    comprar = entrada(int, 'Digite o número do combustível que deseja comprar: ', 2, 1, cont, 0, 0, 0)
 
 
     print('\n '*5)
-    qtd_comprando = Input(float, 'Digite quantos litros de {} que deseja comprar: '.format(lista[comprar-1].getNome()), 3, 0, 0, 0, 0, 0)
+    qtd_comprando = entrada(float, 'Digite quantos litros de {} que deseja comprar: '.format(lista[comprar-1].getNome()), 3, 0, 0, 0, 0, 0)
 
     print('\n '*5 + 'Adquirindo {:.2f} litros de {} você gastará R$ {:.2f}'.format(qtd_comprando, lista[comprar-1].getNome(), round(lista[comprar-1].getPreco()*((100-lucro)/100), 2)*qtd_comprando))
     confirma_ou_nao = str(input('\n Digite S para confirmar a compra / ou N para cancelar:').capitalize())
@@ -275,6 +277,7 @@ def comprar_combustivel(lista, lista2):
 
 #6 Abastecer
 def abastecimento(lista1, lista2, lista3):
+    outro = False
     print('\n '*10)
     caixa_de_texto('Abastecimento')
     estoque_combustiveis = list()
@@ -282,7 +285,7 @@ def abastecimento(lista1, lista2, lista3):
     mostra_veiculos(lista1)
 
     print('\n '*5)
-    escolha = Input(int, 'Digite o número correspondente ao tipo de veículo que deseja abastecer: ', 2, 1, len(lista1), 0, 0, 0, 0, 0)
+    escolha = entrada(int, 'Digite o número correspondente ao tipo de veículo que deseja abastecer: ', 2, 1, len(lista1), 0, 0, 0)
 
     if escolha == 1:
         print('\n '*10)
@@ -309,7 +312,7 @@ def abastecimento(lista1, lista2, lista3):
                              `--`---'   ''')
 
         print('\n '*2)
-        tanque = Input(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 50 litros): ', 2, 0, 50, 0, 0, 0)
+        tanque = entrada(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 50 litros): ', 2, 0, 50, 0, 0, 0)
 
         v1 = Limitado(tanque, 50, ['Gasolina', 'Etanol', 'Diesel'])
         veiculo = 'Carro'
@@ -333,7 +336,7 @@ def abastecimento(lista1, lista2, lista3):
        `-.__,-'                           `-.__,-' ''')
 
         print('\n '*2)
-        tanque = Input(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 16 litros): ', 2, 0, 16, 0, 0, 0)
+        tanque = entrada(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 16 litros): ', 2, 0, 16, 0, 0, 0)
 
         v1 = Limitado(tanque, 16, ['Gasolina', 'Etanol'])
         veiculo = 'Moto'
@@ -357,18 +360,19 @@ def abastecimento(lista1, lista2, lista3):
     \__/                   \__/     \__/                    \__/      \__/                                 ''')
 
         print('\n '*2)
-        tanque = Input(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 300 litros): ', 2, 0, 16, 0, 0, 0)
+        tanque = entrada(float, 'Digite a quantidade de litros atualmente no tanque (Capacidade máxima do tanque -> 300 litros): ', 2, 0, 300, 0, 0, 0)
 
         v1 = Limitado(tanque, 300, ['Gasolina', 'Diesel'])
         veiculo = 'Caminhão'
 
     if (escolha == 4):
+        outro = True
         caixa_de_texto('Abastecendo "Outro"')
         print()
 
 
         print('\n '*5)
-        tanque = Input(float, 'Digite a quantidade de litros atualmente no tanque: ', 1, 0, 0, 0, 0, 0)
+        tanque = entrada(float, 'Digite a quantidade de litros atualmente no tanque: ', 1, 0, 0, 0, 0, 0)
 
                 
         v1 = Veiculo(tanque)
@@ -385,7 +389,7 @@ def abastecimento(lista1, lista2, lista3):
                 cont += 1
 
         print('\n '*5)
-        escolha = Input(int, 'Digite o número do combustível que deseja utilizar: ', 1, 1, len(lista2), 0, 0, 0)
+        escolha = entrada(int, 'Digite o número do combustível que deseja utilizar: ', 1, 1, len(lista2), 0, 0, 0)
 
         caixa_de_texto('Abastecendo "Outro"')
         print()
@@ -393,7 +397,7 @@ def abastecimento(lista1, lista2, lista3):
         print(' {}'.format(estoque_combustiveis[escolha-1][2]) + ' ' * (10 - len(estoque_combustiveis[escolha-1][2])) + '  |  R$ {:.2f}'.format(estoque_combustiveis[escolha-1][1]) + '  |  {:.2f} Litros em estoque'.format(estoque_combustiveis[escolha-1][0]))
 
         print('\n '*5)
-        qtd_abastecendo = Input(float, 'Digite quantos litros de {} deseja abastecer: '.format(estoque_combustiveis[escolha-1][2]), 0, 0, 0, 0, 0, 0)
+        qtd_abastecendo = entrada(float, 'Digite quantos litros de {} deseja abastecer: '.format(estoque_combustiveis[escolha-1][2]), 0, 0, 0, 0, 0, 0)
 
         if qtd_abastecendo > estoque_combustiveis[escolha-1][0]:
             print('\n '*5 + 'Não há estoque o suficiente para abastecer essa quantidade')
@@ -409,7 +413,7 @@ def abastecimento(lista1, lista2, lista3):
                     venda = NotaFiscal(qtd_abastecendo, lista2[j].getNome(), 'Outro', (round(lista2[j].getPreco(), 2)*qtd_abastecendo))
                     lista3.append(venda)
     
-    if not escolha == 4:
+    if not(escolha == 4) and (outro == False):
 
         if tanque == v1.limite:
             print('\n '*10)
@@ -434,17 +438,17 @@ def abastecimento(lista1, lista2, lista3):
                         cont += 1
             print('\n '*5)
 
-            escolha = Input(int, 'Digite o número do combustível que deseja utilizar: ', 1, 1, len(estoque_combustiveis), 0, 0, 0)
+            escolha = entrada(int, 'Digite o número do combustível que deseja utilizar: ', 1, 1, len(estoque_combustiveis), 0, 0, 0)
 
             caixa_de_texto('Abastecendo "{}"'.format(veiculo))
             print()
 
             print(' {}'.format(estoque_combustiveis[escolha-1][2]) + ' ' * (10 - len(estoque_combustiveis[escolha-1][2])) + '  |  R$ {:.2f}'.format(estoque_combustiveis[escolha-1][1]) + '  |  {:.2f} Litros em estoque'.format(estoque_combustiveis[escolha-1][0]))
 
-            qtd_abastecendo = Input(float, 'Digite quantos litros de {} deseja abastecer / ou escreva "completar" para encher o tanque: '.format(estoque_combustiveis[escolha-1][2]).capitalize(), 1, 0, 0, 0, 1, v1.limite-v1.tanque) 
+            qtd_abastecendo = entrada(float, 'Digite quantos litros de {} deseja abastecer / ou escreva "completar" para encher o tanque: '.format(estoque_combustiveis[escolha-1][2]).capitalize(), 1, 0, 0, 0, 1, v1.limite-v1.tanque) 
 
             while not v1.limite >= qtd_abastecendo + v1.tanque:
-                qtd_abastecendo = Input(float, '\n Valor digitado ultrapassou o limite de {:.2f} litros do tanque, digite outro ou "Completar": '.format(v1.limite).capitalize(), 1, 0, 0, 0, 1, v1.limite-v1.tanque) 
+                qtd_abastecendo = entrada(float, '\n Valor digitado ultrapassou o limite de {:.2f} litros do tanque, digite outro ou "Completar": '.format(v1.limite).capitalize(), 1, 0, 0, 0, 1, v1.limite-v1.tanque) 
 
 
             if qtd_abastecendo > estoque_combustiveis[escolha-1][0]:
@@ -467,10 +471,9 @@ def abastecimento(lista1, lista2, lista3):
                         venda = NotaFiscal(qtd_abastecendo, lista2[j].getNome(), veiculo, (round(lista2[j].getPreco(), 2)*qtd_abastecendo))
                         lista3.append(venda)
 
+def consultar_funcionarios(lista):
 
-
-   
-
+    print(lista)
 
 
 

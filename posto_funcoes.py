@@ -1,13 +1,41 @@
 def caixa_de_texto(string):
     print("\n", "-" * 50, "\n", " " * ((50-len(string))//2), string, "\n", "-" * 50, '\n')
 
-def exibir_opcoes(opcoes):
 
+def exibir_opcoes(cargo):
+    gerente = False
+    lista_gerente = ['Lista de combustíveis comercializados', 'Adicionar novo combustível', 'Excluir combustível', 'Consultar Faturamento', 'Comprar Combustível', 'Consultar funcionários', 'Abastecer']
+    lista_comum = ['Lista de combustíveis comercializados', 'Consultar Faturamento', 'Abastecer']
     caixa_de_texto('O melhor Posto do mundo')
     
-    for i in range(len(opcoes)):
+    if not(cargo == 'Gerente'):
+        lista = lista_comum
 
-        print(f'{i+1} - {opcoes[i]}')
+    else:
+        lista = lista_gerente
+        gerente = True
+        
+    for i in range(len(lista)):
+
+        print(f'{i+1} - {lista[i]}')
+    print('\n ' + f'Logado como: {cargo.upper()}')
+    
+    pick = input('\n ' + 'Digite o número da função que deseja acessar: ')
+
+    while not(type(pick) == int):
+        try:
+            pick = int(pick)
+        except:
+            print('\n Valor digitado inválido, por favor digite novamente')
+            pick = input(' Digite o número da função que deseja acessar: ')
+
+    while not 1 <= pick <= len(lista):
+            print('\n Valor digitado inválido, por favor digite novamente')
+            pick = input(' Digite o número da função que deseja acessar: ')
+        
+    return pick, gerente
+        
+
 
 
 def mostra_combustivel(nome_lista, lista, caractere):
@@ -53,46 +81,51 @@ def mostra_extrato(nome_lista, lista):
     print()
     caixa_de_texto('Dinheiro total: R$ {:.2f}'.format(round(faturamento, 2)))
 
-def Input(tipo, texto, limite, minLimite, maxLimite, cancelavel, completar, completarValor):
-    inpuT = input('\n {}'.format(texto))
-    while not(type(inpuT) == tipo):
+def entrada(tipo, texto, limite, minLimite, maxLimite, cancelavel, completar, completarValor):
+    dado = input('\n {}'.format(texto))
+    while not(type(dado) == tipo):
         try:
             if cancelavel == 1:
-                if inpuT.capitalize() == 'X':
+                if dado.capitalize() == 'X':
                     break
 
             if completar == 1:
-                if inpuT == "Completar":
-                    inpuT = completarValor
+                if dado == "Completar":
+                    dado = completarValor
                     break
 
-            inpuT = tipo(inpuT)
+            dado = tipo(dado)
 
             if limite == 3:
-                if not inpuT >= 0:
+                if not dado >= 0:
                     raise ValueError
-                round(inpuT, 2)
+                round(dado, 2)
                 break
 
             if limite == 2:
-                if not minLimite <= inpuT <= maxLimite:
+                if not minLimite <= dado <= maxLimite:
                     raise ValueError
-                round(inpuT, 2)
+                round(dado, 2)
                 break
 
             if limite == 1:
-                if not inpuT > 0:
+                if not dado > 0:
                     raise ValueError
-                round(inpuT, 2)
+                round(dado, 2)
                 break
 
             if limite == 0:
-                round(inpuT, 2)
+                round(dado, 2)
                 break
         except:
             print('\n Valor digitado inválido, por favor digite novamente')
-            inpuT = input('\n {}'.format(texto))
+            dado = input('\n {}'.format(texto))
 
-    return inpuT
+    return dado
 
 
+def login(lista):
+
+    caixa_de_texto('O melhor Posto do mundo')
+    
+    

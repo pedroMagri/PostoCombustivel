@@ -71,3 +71,44 @@ class Limitado(Veiculo):
 
             input('\nDigite algo para retornar ao menu...')
             print('\n '*10)
+
+
+
+class Funcionario:
+    def __init__(self, nome, cpf, cargo, login, senha, vendas):
+        self.nome = nome.capitalize()
+        self.cpf = cpf
+        self.cargo = cargo
+        self.vendas = vendas
+        self.senha = senha
+        self.login = login
+    
+
+    def get_nome(self):
+        return self.nome
+    
+    def get_cpf(self):
+        return self.cpf
+
+    def get_cargo(self):
+        return self.cargo
+
+    def get_vendas(self):
+        return self.vendas
+    
+    def get_senha(self):
+        return self.senha
+    
+    def get_login(self):
+        return self.login
+
+    def set_nome(self, nome):
+        self.nome = nome
+    
+    def set_cpf(self, cpf):
+        self.cpf = cpf
+    
+    def set_cargo(self, cargo):
+        self.cargo = cargo
+    
+    
