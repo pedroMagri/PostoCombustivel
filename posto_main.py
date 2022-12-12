@@ -3,35 +3,20 @@ INE5603-01238B
 Pedro Henrique Gomes Magri - 22200513
 Nicolas Lazzeri Pimenta - 22203241
 
-Sistema de controle de estoque e venda para um posto de combustível (Posto Winterfell)
-
-Informações importantes:
-Carros = Todos os carros da cidade possuem um tanque de 50 litros e não é possível colocar outros combustíveis além de Gasolina/Etanol/Diesel
-Motos =  Todos as motos da cidade possuem um tanque de 16 litros e não é possível colocar outros combustíveis além de Gasolina/Etanol
-Caminhões = Todos os caminhões da cidade possuem um tanque de 300 litros e não é possível colocar outros combustíveis além de Gasolina/Diesel
-Outros = Não há limite de tanque e nem restrição ao tipo de combustível
-
-Ações: 
-1 - Adicionar/remover/alterar os tipos de combustível vendidos, consultar estoque e tabela de preços
-2 - Abastecer e consultar faturamento total
-
 '''
 
 
 #Imports
 import posto_funcionalidades
-from posto_Combustivel import Combustivel
-from posto_funcoes import exibir_opcoes
+from posto_classes import Combustivel
+from posto_funcoes import exibir_opcoes, caixa_de_texto
 
 
 #Código Inicial
-lista_opcoes = ['Lista de combustíveis comercializados', 'Adicionar novo combustível', 'Excluir combustível', 'Consultar Faturamento', 'Tabela de preços', 'Abastecer']
+lista_opcoes = ['Lista de combustíveis comercializados', 'Adicionar novo combustível', 'Excluir combustível', 'Consultar Faturamento', 'Comprar Combustível', 'Abastecer']
 lista_veiculos = ['Carro', 'Moto', 'Caminhão', 'Outro']
-lista_combustiveis = []
-c1 = Combustivel('Gasolina', 500, 4.9)
-c2 = Combustivel('Etanol', 600, 4.5)
-lista_combustiveis.append(c1)
-lista_combustiveis.append(c2)
+lista_combustiveis = [Combustivel('Gasolina', 500, 4.90), Combustivel('Etanol', 600, 4.50), Combustivel('Diesel', 1500, 3.70)]
+lista_faturamento = list()
 
 
 
@@ -39,35 +24,44 @@ lista_combustiveis.append(c2)
 while True:
 
     exibir_opcoes(lista_opcoes)
-    pick = int(input('\nDigite o número da função que deseja acessar: '))
+    print('\n ' + 'Logado como: GERENTE')
+    pick = input('\n ' + 'Digite o número da função que deseja acessar: ')
 
-    while not(1 <= pick <= len(lista_opcoes)):
-        print('\nValor digitado inválido, por favor digite novamente')
-        pick = int(input('Digite o número da função que deseja acessar: '))
+    while not(type(pick) == int):
+        try:
+            pick = int(pick)
+        except:
+            print('\n Valor digitado inválido, por favor digite novamente')
+            pick = input(' Digite o número da função que deseja acessar: ')
+
+    while not 1 <= pick <= len(lista_opcoes):
+            print('\n Valor digitado inválido, por favor digite novamente')
+            pick = input(' Digite o número da função que deseja acessar: ')
+
+
         
 
 
     if (pick == 1):
-
         posto_funcionalidades.mostrar_lista_combustiveis(lista_combustiveis)
 
-    elif (pick == 2):
-
+    if (pick == 2): ## SÓ GERENTE
         posto_funcionalidades.adiciona_combustivel(lista_combustiveis)
         
-    elif (pick == 3):
-
+    if (pick == 3): ## SÓ GERENTE
         posto_funcionalidades.excluir_combustivel(lista_combustiveis)
 
-    elif (pick == 4):
-        print('nao')
-    
-    elif (pick == 5):
+    if (pick == 4):
+        posto_funcionalidades.mostrar_faturamento(lista_faturamento)
 
-        posto_funcionalidades.tabela_precos(lista_combustiveis)
+    if (pick == 5): ## SÓ GERENTE
+        posto_funcionalidades.comprar_combustivel(lista_combustiveis, lista_faturamento)
 
-    elif (pick == 6):
-
-        posto_funcionalidades.abastecimento(lista_veiculos, lista_combustiveis)
+    if (pick == 6):
+        if len(lista_combustiveis) == 0:
+            caixa_de_texto('Operação cancelada')
+            print('\n Não há nenhum combustível para abastecer um veículo')
+        else:
+            posto_funcionalidades.abastecimento(lista_veiculos, lista_combustiveis, lista_faturamento)
         
 
